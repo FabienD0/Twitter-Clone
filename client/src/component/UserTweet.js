@@ -13,14 +13,19 @@ const UserTweet = ({
   const [limitColor, setLimitColor] = useState("black");
   const [tweet, setTweet] = useState("");
   const { currentUser } = useContext(CurrentUserContext);
+  const [isError, setIsError] = useState(false);
 
   const tweetFunction = (e) => {
-    if (tweet.length < 225 || tweet.length === 0) {
-      setLimitColor("black");
-    } else if (tweet.length > 225 && tweet.length <= 280) {
-      setLimitColor("#fdc900");
-    } else if (tweet.length >= 281) {
-      setLimitColor("red");
+    switch (true) {
+      case tweet.length < 225 || tweet.length === 0:
+        setLimitColor("black");
+        break;
+      case tweet.length > 225 && tweet.length <= 280:
+        setLimitColor("#fdc900");
+        break;
+      case tweet.length >= 281:
+        setLimitColor("red");
+        break;
     }
     setTweet(e.target.value);
   };
@@ -46,9 +51,13 @@ const UserTweet = ({
         setTweet("");
       })
       .catch((error) => {
-        return <Error />;
+        setIsError(true);
       });
   };
+
+  if (isError) {
+    return <Error />;
+  }
 
   return (
     <Container>

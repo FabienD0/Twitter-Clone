@@ -16,6 +16,18 @@ import { CurrentUserContext } from "./CurrentUserContext";
 const App = () => {
   const { currentUser, status } = useContext(CurrentUserContext);
 
+  const routes = [
+    { path: "/", element: <Home /> },
+    { path: "/notifications", element: <Notifications /> },
+    { path: "/bookmarks", element: <Bookmarks /> },
+    { path: "/tweet/:tweetId", element: <TweetDetails /> },
+    { path: "/:profileId", element: <Profile /> },
+    { path: "/:profileId/following", element: <Following /> },
+    { path: "/:profileId/followers", element: <Followers /> },
+  ];
+
+  routes.map((route) => <Route path={route.path} element={route.element} />);
+
   if (status === "loading") {
     return (
       <Router>
@@ -35,14 +47,9 @@ const App = () => {
         <Sidebar />
         {status === "error" && <Error />}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/bookmarks" element={<Bookmarks />} />
-          <Route path="/tweet/:tweetId" element={<TweetDetails />} />
-          <Route path="/:profileId" element={<Profile />} />
-          <Route path="/:profileId/following" element={<Following />} />
-          <Route path="/:profileId/followers" element={<Followers />} />
-          {/* <Route path="/error" element={<Error />} /> */}
+          {routes.map((route) => {
+            return <Route path={route.path} element={route.element} />;
+          })}
         </Routes>
       </Container>
     </Router>

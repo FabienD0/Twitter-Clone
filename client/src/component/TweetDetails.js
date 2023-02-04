@@ -13,6 +13,7 @@ const TweetDetails = () => {
   const [tweetDetails, setTweetDetails] = useState([]);
   const { tweetId } = useParams();
   const [reloadTweet, setReloadTweet] = useState(false);
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const TweetDetails = () => {
         setTweetDetails(data.tweet);
       })
       .catch((error) => {
-        return <Error />;
+        setIsError(true);
       });
   }, [reloadTweet]);
 
@@ -32,6 +33,10 @@ const TweetDetails = () => {
         <Spinner />
       </ContainerSpinner>
     );
+  }
+
+  if (isError) {
+    return <Error />;
   }
 
   return (

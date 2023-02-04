@@ -19,6 +19,7 @@ const BigTweet = ({ tweet, reloadTweet, setReloadTweet }) => {
   const formatDate = format(date, "p LLL d y");
   const [successLike, setSuccessLike] = useState(tweet.isLiked);
   const [likeNumber, setNumberLike] = useState(tweet.numLikes);
+  const [isError, setIsError] = useState(false);
 
   const isLiked = () => {
     //Remove the LIKE
@@ -40,7 +41,7 @@ const BigTweet = ({ tweet, reloadTweet, setReloadTweet }) => {
           setReloadTweet(!reloadTweet);
         })
         .catch((error) => {
-          return <Error />;
+          setIsError(true);
         });
       //Add a LIKE
     } else if (!tweet.isLiked) {
@@ -65,6 +66,10 @@ const BigTweet = ({ tweet, reloadTweet, setReloadTweet }) => {
         });
     }
   };
+
+  if (isError) {
+    return <Error />;
+  }
 
   return (
     <Wrapper>

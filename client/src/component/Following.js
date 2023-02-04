@@ -15,6 +15,7 @@ const Following = () => {
   const [userProfile, setUserProfile] = useState([]);
   const [followingUsers, setFollowingUsers] = useState([]);
   const [reloadTweet, setReloadTweet] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     fetch(`/api/${profileId}/profile`)
@@ -27,7 +28,7 @@ const Following = () => {
         }
       })
       .catch((error) => {
-        return <Error />;
+        setIsError(true);
       });
 
     fetch(`/api/${profileId}/following`)
@@ -46,6 +47,10 @@ const Following = () => {
         <Spinner />
       </ContainerSpinner>
     );
+  }
+
+  if (isError) {
+    return <Error />;
   }
   return (
     <Container>

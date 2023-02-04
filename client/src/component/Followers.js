@@ -15,6 +15,7 @@ const Followers = () => {
   const [userProfile, setUserProfile] = useState([]);
   const [followerUsers, setFollowerUsers] = useState([]);
   const [reloadTweet, setReloadTweet] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     fetch(`/api/${profileId}/profile`)
@@ -27,7 +28,7 @@ const Followers = () => {
         }
       })
       .catch((error) => {
-        return <Error />;
+        setIsError(true);
       });
 
     fetch(`/api/${profileId}/followers`)
@@ -36,7 +37,7 @@ const Followers = () => {
         setFollowerUsers(data.followers);
       })
       .catch((error) => {
-        return <Error />;
+        setIsError(true);
       });
   }, [reloadTweet]);
 
@@ -46,6 +47,10 @@ const Followers = () => {
         <Spinner />
       </ContainerSpinner>
     );
+  }
+
+  if (isError) {
+    return <Error />;
   }
 
   return (

@@ -9,6 +9,7 @@ import Error from "./Error";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import HoverUser from "./HoverUser";
+import { is } from "date-fns/locale";
 
 const Tweet = ({ tweetId, tweetsById, reloadTweet, setReloadTweet }) => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Tweet = ({ tweetId, tweetsById, reloadTweet, setReloadTweet }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const [successLike, setSuccessLike] = useState(tweetsById[tweetId].isLiked);
   const [likeNumber, setNumberLike] = useState(tweetsById[tweetId].numLikes);
+  const [isError, setIsError] = useState(false);
 
   const clickTweet = (e) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ const Tweet = ({ tweetId, tweetsById, reloadTweet, setReloadTweet }) => {
           setReloadTweet(!reloadTweet);
         })
         .catch((error) => {
-          return <Error />;
+          setIsError(true);
         });
       //Add a LIKE
     } else if (!tweetsById[tweetId].isLiked) {
@@ -64,10 +66,14 @@ const Tweet = ({ tweetId, tweetsById, reloadTweet, setReloadTweet }) => {
           setReloadTweet(!reloadTweet);
         })
         .catch((error) => {
-          return <Error />;
+          setIsError(true);
         });
     }
   };
+
+  if (isError) {
+    return <Error />;
+  }
 
   return (
     <Wrapper>

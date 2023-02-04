@@ -7,9 +7,11 @@ import Error from "./Error";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { COLORS } from "../constants";
+import { is } from "date-fns/locale";
 
 const FollowingUsers = ({ user, userProfile, reloadTweet, setReloadTweet }) => {
   const navigate = useNavigate();
+  const [isError, setIsError] = useState(false);
 
   //Follow & Unfollow FUNCTION
   const isFollowed = () => {
@@ -28,7 +30,7 @@ const FollowingUsers = ({ user, userProfile, reloadTweet, setReloadTweet }) => {
           }
         })
         .catch((error) => {
-          return <Error />;
+          setIsError(true);
         });
     }
     if (!user.isBeingFollowedByYou) {
@@ -46,11 +48,15 @@ const FollowingUsers = ({ user, userProfile, reloadTweet, setReloadTweet }) => {
           }
         })
         .catch((error) => {
-          return <Error />;
+          setIsError(true);
         });
     }
   };
   ///
+
+  if (isError) {
+    return <Error />;
+  }
 
   return (
     <Container>

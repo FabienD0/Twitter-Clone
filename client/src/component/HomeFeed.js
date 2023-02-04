@@ -10,6 +10,7 @@ const HomeFeed = () => {
   const [tweetsById, setTweetsById] = useState([]);
   const [reloadTweet, setReloadTweet] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     fetch("/api/me/home-feed")
@@ -20,7 +21,7 @@ const HomeFeed = () => {
         setDisableButton(false);
       })
       .catch((error) => {
-        return <Error />;
+        setIsError(true);
       });
   }, [reloadTweet]);
 
@@ -35,6 +36,10 @@ const HomeFeed = () => {
         </Container>
       </>
     );
+  }
+
+  if (isError) {
+    return <Error />;
   }
 
   return (

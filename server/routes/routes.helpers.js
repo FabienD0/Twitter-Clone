@@ -4,7 +4,7 @@ const data = require("../data");
 const CURRENT_USER_HANDLE = "treasurymog";
 
 const MAX_DELAY = 2000;
-// const FAILURE_ODDS = 0.05;
+const FAILURE_ODDS = 0.0;
 // const FAILURE_ODDS = 0.25;
 
 // Our server is very lean and quick, given that it doens't actually connect

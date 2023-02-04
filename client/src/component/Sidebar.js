@@ -17,7 +17,6 @@ const Sidebar = () => {
           <Home />
           <TextMenu>Home</TextMenu>
         </NavigationLink>
-        {/* <NavigationLink to={`${currentUser.handle}`}> */}
         <NavigationLink to="/treasurymog">
           <User />
           <TextMenu>Profile</TextMenu>

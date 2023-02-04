@@ -7,7 +7,7 @@ import Error from "./Error";
 import { ContainerSpinner } from "./Spinner";
 import { COLORS } from "../constants";
 import { FiMapPin, FiCalendar } from "react-icons/fi";
-import { parseISO, format } from "date-fns";
+import { parseISO, format, set } from "date-fns";
 
 const Profile = () => {
   const [tweetIds, setTweetIds] = useState([]);
@@ -16,6 +16,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const [reloadTweet, setReloadTweet] = useState(false);
   const { profileId } = useParams();
+  const [isError, setIsError] = useState(false);
 
   //Get User Profile
   useEffect(() => {
@@ -29,7 +30,7 @@ const Profile = () => {
         }
       })
       .catch((error) => {
-        return <Error />;
+        setIsError(true);
       });
 
     fetch(`/api/${profileId}/feed`)
@@ -39,7 +40,7 @@ const Profile = () => {
         setTweetsById(data.tweetsById);
       })
       .catch((error) => {
-        return <Error />;
+        setIsError(true);
       });
   }, [profileId, reloadTweet]);
 
@@ -59,7 +60,7 @@ const Profile = () => {
           }
         })
         .catch((error) => {
-          return <Error />;
+          setIsError(true);
         });
     }
     if (!userProfile.isBeingFollowedByYou) {
@@ -77,10 +78,14 @@ const Profile = () => {
           }
         })
         .catch((error) => {
-          return <Error />;
+          setIsError(true);
         });
     }
   };
+
+  if (isError) {
+    return <Error />;
+  }
 
   if (
     tweetIds.length === 0 &&

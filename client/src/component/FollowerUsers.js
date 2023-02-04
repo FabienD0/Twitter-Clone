@@ -10,6 +10,7 @@ import { COLORS } from "../constants";
 
 const FollowerUsers = ({ user, userProfile, reloadTweet, setReloadTweet }) => {
   const navigate = useNavigate();
+  const [isError, setIsError] = useState(false);
 
   //Follow & Unfollow FUNCTION
   const isFollowed = () => {
@@ -28,7 +29,7 @@ const FollowerUsers = ({ user, userProfile, reloadTweet, setReloadTweet }) => {
           }
         })
         .catch((error) => {
-          return <Error />;
+          setIsError(true);
         });
     }
     if (!user.isBeingFollowedByYou) {
@@ -51,6 +52,10 @@ const FollowerUsers = ({ user, userProfile, reloadTweet, setReloadTweet }) => {
     }
   };
   ///
+
+  if (isError) {
+    return <Error />;
+  }
 
   return (
     <Container>
